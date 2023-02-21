@@ -1,39 +1,86 @@
-function setUpButtons() {
-    const drumButtons = document.querySelectorAll(".drum")
-    for (let button = 0; button <= drumButtons.length; button++) {
-        drumButtons[button].addEventListener("click", () => {
-            drumButtons[button].style.color = "white"
-            setTimeout(()=>{
-                drumButtons[button].style.color = "#DA0463"
-            },1000)
-            switch (button) {
-                case 0:
-                    playAudio("sounds/tom-1.mp3");
-                case 1:
-                    playAudio("sounds/kick-bass.mp3")
-                case 2:
-                    playAudio("sounds/snare.mp3")
-                case 3:
-                    playAudio("sounds/tom-1.mp3")
-                case 4:
-                    playAudio("sounds/tom-2.mp3")
-                case 5:
-                    playAudio("sounds/tom-3.mp3")
-                default:
-                    playAudio("sounds/tom-4.mp3")
-            }
-        })
+
+function setUpButtons(){
+    let drumButtons = document.querySelectorAll(".drum").length;
+
+    for (let i = 0; i < drumButtons; i++) {
+
+        document.querySelectorAll(".drum")[i].addEventListener("click", function() {
+
+            let buttonInnerHTML = this.innerHTML;
+
+            makeSound(buttonInnerHTML);
+
+            buttonAnimation(buttonInnerHTML);
+
+        });
+
     }
 }
 
-function playAudio(audioPath) {
-    const audio = new Audio(audioPath).play()
+setUpButtons()
+
+document.addEventListener("keypress", function(event) {
+
+    makeSound(event.key);
+
+    buttonAnimation(event.key);
+
+});
+
+
+function makeSound(key) {
+
+    switch (key) {
+        case "w":
+            let tom1 = new Audio("sounds/tom-1.mp3");
+            tom1.play();
+            break;
+
+        case "a":
+            let tom2 = new Audio("sounds/tom-2.mp3");
+            tom2.play();
+            break;
+
+        case "s":
+            let tom3 = new Audio('sounds/tom-3.mp3');
+            tom3.play();
+            break;
+
+        case "d":
+            let tom4 = new Audio('sounds/tom-4.mp3');
+            tom4.play();
+            break;
+
+        case "j":
+            let snare = new Audio('sounds/snare.mp3');
+            snare.play();
+            break;
+
+        case "k":
+            let crash = new Audio('sounds/crash.mp3');
+            crash.play();
+            break;
+
+        case "l":
+            let kick = new Audio('sounds/kick-bass.mp3');
+            kick.play();
+            break;
+
+
+        default: console.log(key);
+
+    }
 }
 
 
-setUpButtons()
+function buttonAnimation(currentKey) {
 
+    let activeButton = document.querySelector("." + currentKey);
 
-function handleDrumClick() {
-    alert("Button clicked")
+    activeButton.classList.add("pressed");
+
+    setTimeout(function() {
+        activeButton.classList.remove("pressed");
+    }, 100);
+
 }
